@@ -1,3 +1,4 @@
+from random import randint, random, uniform
 import win32api
 import win32con
 import time
@@ -6,7 +7,9 @@ import threading
 from threading import Thread
 
 cps = 0
-speed = 0.01 #Click per second modifier
+#speed = 0.01 #Click per second modifier
+minSpeed = 1/20
+maxSpeed = 1/30
 
 def counter():
 
@@ -31,11 +34,11 @@ def clicker():
             while True:
 
                 (x,y) = win32api.GetCursorPos() #Get the current position of the cursor
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN,x,y,0,0)
+                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP,x,y,0,0)
                 cps += 1
-                time.sleep(speed)
-
+                time.sleep(0.01)
+                '''
                 if win32api.GetAsyncKeyState(38) != 0 and win32api.GetAsyncKeyState(16) != 0 and speed > 0.005: #Check if Shift + Up is pressed
                     speed -= 0.005
                     cps = 0
@@ -45,7 +48,7 @@ def clicker():
                     speed += 0.005
                     cps = 0
                     time.sleep(0.1)
-
+                '''
                 if win32api.GetAsyncKeyState(87) != 0 and win32api.GetAsyncKeyState(16) != 0: #Check if Shift + W is pressed
                     break
                     cps = 0
