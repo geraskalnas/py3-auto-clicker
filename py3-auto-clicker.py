@@ -11,8 +11,6 @@ ind=-1
 cps = 0
 
 #nustatymai
-left=False
-right=True
 minCPS = 20
 maxCPS = 30
 combinations=10000
@@ -33,29 +31,22 @@ def counter():
         cps = 0
         time.sleep(1)
 
-def clickerRight():
+def clicker():
     global cps
 
     while True:
         while win32api.GetAsyncKeyState(win32con.VK_MENU) != 0 and win32api.GetAsyncKeyState(90) != 0: #alt+z
-                (x,y) = win32api.GetCursorPos()
-                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN,x,y,0,0)
-                win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP,x,y,0,0)
-                cps += 1
-                time.sleep(getSpeed())
-
-def clickerLeft():
-    global cps
-    #global speed
-
-    while True:
+            (x,y) = win32api.GetCursorPos()
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN,x,y,0,0)
+            win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP,x,y,0,0)
+            cps += 1
+            time.sleep(getSpeed())
         while win32api.GetAsyncKeyState(win32con.VK_MENU) != 0 and win32api.GetAsyncKeyState(88) != 0: #alt+x
-                (x,y) = win32api.GetCursorPos()
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
-                win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
-                cps += 1
-                time.sleep(getSpeed())
-
+            (x,y) = win32api.GetCursorPos()
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+            win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+            cps += 1
+            time.sleep(getSpeed())
 print("Generating.")
 
 for i in range(combinations):
@@ -64,15 +55,9 @@ for i in range(combinations):
 
 print("Starting services...")
 
-if(right):
-    t1 = Thread(target = clickerRight) #If threads were not daemons the program would not exit with keyboard interrupt
-    t1.daemon = True
-    t1.start()
-
-if(left):
-    t2 = Thread(target = clickerLeft)
-    t2.daemon = True
-    t2.start()
+t1 = Thread(target = clicker) #If threads were not daemons the program would not exit with keyboard interrupt
+t1.daemon = True
+t1.start()
 
 print("Ready.\n\n")
 
