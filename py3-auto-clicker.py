@@ -11,7 +11,8 @@ ind=-1
 cps = 0
 
 #nustatymai
-###speed = 1/20
+left=False
+right=True
 minCPS = 20
 maxCPS = 30
 combinations=10000
@@ -34,11 +35,10 @@ def counter():
 
 def clickerRight():
     global cps
-    #global speed
 
     while True:
         while win32api.GetAsyncKeyState(win32con.VK_MENU) != 0 and win32api.GetAsyncKeyState(90) != 0: #alt+z
-                (x,y) = win32api.GetCursorPos() #Get the current position of the cursor
+                (x,y) = win32api.GetCursorPos()
                 win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN,x,y,0,0)
                 win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP,x,y,0,0)
                 cps += 1
@@ -50,7 +50,7 @@ def clickerLeft():
 
     while True:
         while win32api.GetAsyncKeyState(win32con.VK_MENU) != 0 and win32api.GetAsyncKeyState(88) != 0: #alt+x
-                (x,y) = win32api.GetCursorPos() #Get the current position of the cursor
+                (x,y) = win32api.GetCursorPos()
                 win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
                 win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
                 cps += 1
@@ -64,13 +64,15 @@ for i in range(combinations):
 
 print("Starting services...")
 
-t1 = Thread(target = clickerRight) #If threads were not daemons the program would not exit with keyboard interrupt
-t1.daemon = True
-t1.start()
+if(right):
+    t1 = Thread(target = clickerRight) #If threads were not daemons the program would not exit with keyboard interrupt
+    t1.daemon = True
+    t1.start()
 
-t2 = Thread(target = clickerLeft)
-t2.daemon = True
-t2.start()
+if(left):
+    t2 = Thread(target = clickerLeft)
+    t2.daemon = True
+    t2.start()
 
 print("Ready.\n\n")
 
