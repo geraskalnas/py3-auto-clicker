@@ -15,7 +15,6 @@ cps = 0
 minCPS = 20
 maxCPS = 30
 combinations=10000
-right=True
 
 def getSpeed():
     global ind, combinations, tt
